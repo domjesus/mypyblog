@@ -128,5 +128,4 @@ STATICFILES_DIRS = [
 ]
 MEDIA_URL = 'media/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # PROD ENVIRONMENT
 # MEDIA_ROOT = BASE_DIR / 'media'
