@@ -1,176 +1,101 @@
+(function () {
+  "use strict";
 
-(function() {
-    //===== Prealoder
-    
-    window.onload = function () {
-        window.setTimeout(fadeout, 500);
+  // ======= Sticky
+  window.onscroll = function () {
+    const ud_header = document.querySelector(".ud-header");
+    const sticky = ud_header.offsetTop;
+    const logo = document.querySelector(".header-logo");
+
+    if (window.pageYOffset > sticky) {
+      ud_header.classList.add("sticky");
+    } else {
+      ud_header.classList.remove("sticky");
     }
 
-    function fadeout() {
-        document.querySelector('.preloader').style.opacity = '0';
-        document.querySelector('.preloader').style.display = 'none';
+    // === logo change
+    if (ud_header.classList.contains("sticky")) {
+      logo.src = "static/assets/images/logo/logo.svg";
+    } else {
+      logo.src = "static/assets/images/logo/logo-white.svg";
     }
-    
-    
-    /*=====================================
-    Sticky
-    ======================================= */
-    window.onscroll = function () {
-        var header_navbar = document.querySelector(".navbar-area");
-        var sticky = header_navbar.offsetTop;
 
-        if (window.pageYOffset > sticky) {
-            header_navbar.classList.add("sticky");
-        } else {
-            header_navbar.classList.remove("sticky");
-        }
+    // show or hide the back-top-top button
+    const backToTop = document.querySelector(".back-to-top");
+    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+      backToTop.style.display = "flex";
+    } else {
+      backToTop.style.display = "none";
+    }
+  };
 
+  // ===== responsive navbar
+  let navbarToggler = document.querySelector("#navbarToggler");
+  const navbarCollapse = document.querySelector("#navbarCollapse");
 
+  navbarToggler.addEventListener("click", () => {
+    navbarToggler.classList.toggle("navbarTogglerActive");
+    navbarCollapse.classList.toggle("hidden");
+  });
 
-        // show or hide the back-top-top button
-        var backToTo = document.querySelector(".scroll-top");
-        if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-            backToTo.style.display = "flex";
-        } else {
-            backToTo.style.display = "none";
-        }
-    };
-    
-    
-    // for menu scroll 
-    var pageLink = document.querySelectorAll('.page-scroll');
-    
-    pageLink.forEach(elem => {
-        elem.addEventListener('click', e => {
-            e.preventDefault();
-            document.querySelector(elem.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth',
-                offsetTop: 1 - 60,
-            });
-        });
-    });
-    
-    // section menu active
-    function onScroll(event) {
-        var sections = document.querySelectorAll('.page-scroll');
-        var scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-
-        for (var i = 0; i < sections.length; i++) {
-            var currLink = sections[i];
-            var val = currLink.getAttribute('href');
-            var refElement = document.querySelector(val);
-            var scrollTopMinus = scrollPos + 73;
-            if (refElement.offsetTop <= scrollTopMinus && (refElement.offsetTop + refElement.offsetHeight > scrollTopMinus)) {
-                document.querySelector('.page-scroll').classList.remove('active');
-                currLink.classList.add('active');
-            } else {
-                currLink.classList.remove('active');
-            }
-        }
-    };
-
-    window.document.addEventListener('scroll', onScroll);
-
-    //===== close navbar-collapse when a  clicked
-    let navbarToggler = document.querySelector(".navbar-toggler");    
-    var navbarCollapse = document.querySelector(".navbar-collapse");
-
-    document.querySelectorAll(".page-scroll").forEach(e =>
-        e.addEventListener("click", () => {
-            navbarToggler.classList.remove("active");
-            navbarCollapse.classList.remove('show')
-        })
-    );
-    navbarToggler.addEventListener('click', function() {
-        navbarToggler.classList.toggle("active");
-        // navbarCollapse.classList.toggle('show')
-    }) 
-    
-    
-    // WOW active
-    new WOW().init();
-
-    
-    //======== tiny slider for work
-    tns({
-        container: '.work_active',
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayText: [ ' ', ' ' ],
-        mouseDrag: true,
-        gutter: 0,
-        nav: true,
-        controls: false,
-        controlsText: [
-            '<i class="lni lni-chevron-left prev"></i>',
-            '<i class="lni lni-chevron-right next"></i>'
-        ],
-        items: 5,
-
-        responsive: {
-            0: {
-                items: 1,
-            },
-            570: {
-                items: 2,
-            },
-            850: {
-                items: 3,
-            },
-            1200: {
-                items: 4,
-            },
-            1400: {
-                items: 5,
-            },
-        }
-    });
-    //======== tiny slider for team
-    tns({
-        container: '.team_active',
-        autoplay: true,
-        autoplayTimeout: 5000,
-        autoplayText: [ ' ', ' ' ],
-        mouseDrag: true,
-        gutter: 0,
-        nav: true,
-        controls: false,
-        controlsText: [
-            '<i class="lni lni-chevron-left prev"></i>',
-            '<i class="lni lni-chevron-right next"></i>'
-        ],
-        items: 5,
-
-        responsive: {
-            0: {
-                items: 1,
-            },
-            768: {
-                items: 2,
-            },
-            1050: {
-                items: 3,
-            },
-        }
-    });
-
-    // ================ pricing tab
-    const tabs = document.querySelectorAll('[data-tab-target]')
-    const tabContents = document.querySelectorAll('[data-tab-content]')
-    
-    tabs.forEach(tab => {
-      tab.addEventListener('click', () => {
-        const target = document.querySelector(tab.dataset.tabTarget)
-        tabContents.forEach(tabContent => {
-          tabContent.classList.remove('active')
-        })
-        tabs.forEach(tab => {
-          tab.classList.remove('active')
-        })
-        tab.classList.add('active')
-        target.classList.add('active')
-      })
+  //===== close navbar-collapse when a  clicked
+  document.querySelectorAll("#navbarCollapse ul li:not(.submenu-item) a").forEach((e) =>
+    e.addEventListener("click", () => {
+      navbarToggler.classList.remove("navbarTogglerActive");
+      navbarCollapse.classList.add("hidden");
     })
+  );
 
-    
+  // ===== Sub-menu
+  const submenuItems = document.querySelectorAll(".submenu-item");
+  submenuItems.forEach((el) => {
+    el.querySelector("a").addEventListener("click", () => {
+      el.querySelector(".submenu").classList.toggle("hidden");
+    });
+  });
+
+  // ===== Faq accordion
+  const faqs = document.querySelectorAll(".single-faq");
+  faqs.forEach((el) => {
+    el.querySelector(".faq-btn").addEventListener("click", () => {
+      el.querySelector(".icon").classList.toggle("rotate-180");
+      el.querySelector(".faq-content").classList.toggle("hidden");
+    });
+  });
+
+  // ===== wow js
+  new WOW().init();
+
+  // ====== scroll top js
+  function scrollTo(element, to = 0, duration = 500) {
+    const start = element.scrollTop;
+    const change = to - start;
+    const increment = 20;
+    let currentTime = 0;
+
+    const animateScroll = () => {
+      currentTime += increment;
+
+      const val = Math.easeInOutQuad(currentTime, start, change, duration);
+
+      element.scrollTop = val;
+
+      if (currentTime < duration) {
+        setTimeout(animateScroll, increment);
+      }
+    };
+
+    animateScroll();
+  }
+
+  Math.easeInOutQuad = function (t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t + b;
+    t--;
+    return (-c / 2) * (t * (t - 2) - 1) + b;
+  };
+
+  document.querySelector(".back-to-top").onclick = () => {
+    scrollTo(document.documentElement);
+  };
 })();

@@ -1,111 +1,99 @@
 {% load static %}
 <!DOCTYPE html>
-<html class="no-js" lang="pt-br">
-  {% include 'layouts/_head.html' %}
-
+<html lang="pt-br" class="scroll-smooth">
+  {% include 'layouts/head.html' %}
   <body>
-    <!--[if IE]>
-      <p class="browserupgrade">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.
-      </p>
-    <![endif]-->
+    <!-- ====== Navbar Section Start -->
+    {% include 'layouts/navbar.html' %}
+    <!-- ====== Navbar Section End -->
 
-    <!--====== PRELOADER PART START ======-->
+    <!-- ====== Hero Section Start -->
+    {% include 'layouts/hero.html' %}
+    <!-- ====== Hero Section End -->
 
-    {% include 'layouts/_preloader.html' %}
+    <!-- ====== Features Section Start -->
+    <!-- {% include 'layouts/features.html' %} -->
+    <!-- ====== Features Section End -->
 
-    <!--====== PRELOADER PART ENDS ======-->
+    {% block content %} {% endblock %}
 
-    <!--====== HEADER PART START ======-->
+    <!-- ====== About Section Start -->
+    {% include 'layouts/about.html' %}
+    <!-- ====== About Section End -->
 
-    {% include 'layouts/_header.html' %}
+    <!-- ====== Pricing Section Start -->
+    {% include 'layouts/pricing.html' %}
+    <!-- ====== Pricing Section End -->
 
-    <!--====== HEADER PART ENDS ======-->
+    <!-- ====== Faq Section Start -->
+    <!-- {% include 'layouts/faq.html' %} -->
+    <!-- ====== Faq Section End -->
 
-    <!--====== SERVICES PART START ======-->
+    <!-- ====== Testimonials Start ====== -->
+    <!-- {% include 'layouts/testmonials.html' %} -->
+    <!-- ====== Testimonials End ====== -->
 
-    {% include 'layouts/_services.html' %}
+    <!-- ====== Team Section Start -->
+    <!-- {% include 'layouts/team.html' %} -->
+    <!-- ====== Team Section End -->
 
-    <!--====== SERVICES PART ENDS ======-->
+    <!-- ====== Contact Start ====== -->
+    <!-- {% include 'layouts/contact.html' %} -->
+    <!-- ====== Contact End ====== -->
 
-    <!--====== ABOUT PART START ======-->
+    <!-- ====== Footer Section Start -->
+    {% include 'layouts/footer.html' %}
+    <!-- ====== Footer Section End -->
 
-    {% include 'layouts/_about.html' %}
+    <!-- ====== Back To Top Start -->
+    <a
+      href="javascript:void(0)"
+      class="hidden items-center justify-center bg-primary text-white w-10 h-10 rounded-md fixed bottom-8 right-8 left-auto z-[999] hover:bg-dark back-to-top shadow-md transition duration-300 ease-in-out"
+    >
+      <span class="w-3 h-3 border-t border-l border-white rotate-45 mt-[6px]"></span>
+    </a>
+    <!-- ====== Back To Top End -->
 
-    <!--====== ABOUT PART ENDS ======-->
+    <!-- ====== All Scripts -->
 
-    <!--====== SERVICES PART START ======-->
-
-    {% include 'layouts/_single_services.html' %}
-
-    <!--====== SERVICES PART ENDS ======-->
-
-    <!--====== WORK PART START ======-->
-
-    {% include 'layouts/_works.html' %}
-
-    <!--====== WORK PART ENDS ======-->
-
-    <!--====== PRICING PLAN PART START ======-->
-
-    {% include 'layouts/_pricing.html' %}
-
-    <!--====== PRICING PLAN PART ENDS ======-->
-
-    <!--====== TEAM PART START ======-->
-
-    {% include 'layouts/_team.html' %}
-
-    <!--====== TEAM PART ENDS ======-->
-
-    <!--====== BLOG PART START ======-->
-
-    {% include 'layouts/_blog.html' %}
-
-    <!--====== BLOG PART ENDS ======-->
-
-    <!--====== CONTACT PART START ======-->
-
-    {% include 'layouts/_contact.html' %}
-
-    <!--====== CONTACT PART ENDS ======-->
-
-    <!--====== FOOTER PART START ======-->
-
-    {% include 'layouts/_footer.html' %}
-
-    <!--====== FOOTER PART ENDS ======-->
-
-    <!--====== BACK TOP TOP PART START ======-->
-
-    <a href="#" class="scroll-top"><i class="lni lni-chevron-up"></i></a>
-
-    <!--====== BACK TOP TOP PART ENDS ======-->
-
-    <!--====== PART START ======-->
-
-    <!--
-    <section class="">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-">
-                    
-                </div>
-            </div>
-        </div>
-    </section>
--->
-
-    <!--====== PART ENDS ======-->
-
-    <!--====== Tiny Slider js ======-->
-    <script src="{% static 'assets/js/tiny-slider.js' %}"></script>
-
-    <!--====== Wow js ======-->
-    <script src="{% static 'assets/js/wow.min.js' %}"></script>
-
-    <!--====== Main js ======-->
     <script src="{% static 'assets/js/main.js' %}"></script>
+    <script>
+      // ==== for menu scroll
+      const pageLink = document.querySelectorAll(".ud-menu-scroll");
+
+      pageLink.forEach((elem) => {
+        elem.addEventListener("click", (e) => {
+          e.preventDefault();
+          document.querySelector(elem.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
+            offsetTop: 1 - 60,
+          });
+        });
+      });
+
+      // section menu active
+      function onScroll(event) {
+        const sections = document.querySelectorAll(".ud-menu-scroll");
+        const scrollPos = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+
+        for (let i = 0; i < sections.length; i++) {
+          const currLink = sections[i];
+          const val = currLink.getAttribute("href");
+          const refElement = document.querySelector(val);
+          const scrollTopMinus = scrollPos + 73;
+          if (
+            refElement.offsetTop <= scrollTopMinus &&
+            refElement.offsetTop + refElement.offsetHeight > scrollTopMinus
+          ) {
+            document.querySelector(".ud-menu-scroll").classList.remove("active");
+            currLink.classList.add("active");
+          } else {
+            currLink.classList.remove("active");
+          }
+        }
+      }
+
+      window.document.addEventListener("scroll", onScroll);
+    </script>
   </body>
 </html>
